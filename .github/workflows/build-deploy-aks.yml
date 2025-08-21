@@ -2,7 +2,9 @@ name: Build and Deploy Node.js App to AKS
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
   workflow_dispatch:
     inputs:
       deploy:
@@ -12,7 +14,18 @@ on:
         type: boolean
 
 jobs:
+  set-version:
+    runs-on: ubuntu-latest
+    outputs:
+      tag_name: ${{ steps.set-version-number.outputs.tag_name }}
+    steps:
+    - name: Set version number
+      id: set-version-number
+      run: |
+        echo "tag_name=1.2.$GITHUB_RUN_NUMBER" >> $GITHUB_OUTPUT
+   
   build-and-push:
+    needs: set-version
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -27,6 +40,10 @@ jobs:
           login-server: ${{ secrets.ACR_LOGIN_SERVER }}
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
+      
+      - name: Print env
+        run: |
+          echo ${{ needs.set-version.outputs.tag_name }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
@@ -34,10 +51,10 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.ACR_LOGIN_SERVER }}/hello-world-nodejs:1.0.0
+          tags: ${{ secrets.ACR_LOGIN_SERVER }}/hello-world-nodejs:${{ needs.set-version.outputs.tag_name }}
 
   deploy:
-    needs: build-and-push
+    needs: [ set-version, build-and-push ]
     if: github.event_name == 'workflow_dispatch' && github.event.inputs.deploy == 'true'
     runs-on: ubuntu-latest
     environment:
@@ -47,17 +64,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      #- name: Set up Azure CLI
-      #  uses: azure/cli@v2
-
       - name: Azure Login
         uses: azure/login@v2
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      #- name: Install kubelogin
-      #  run: |
-      #    sudo az aks install-cli    
 
       - name: Set up kubelogin for non-interactive login
         uses: azure/use-kubelogin@v1
@@ -71,10 +81,6 @@ jobs:
           cluster-name: ${{ secrets.AKS_CLUSTER_NAME }}
           admin: 'false'
           use-kubelogin: 'true'
-
-      #- name: Set AKS context
-      #  run: |
-      #    az aks get-credentials --resource-group ${{ secrets.AKS_RESOURCE_GROUP }} --name ${{ secrets.AKS_CLUSTER_NAME }}
 
       - name: Deploy with Helm
         run: |
