@@ -1,0 +1,11 @@
+{
+  "name": "simple-node-webserver",
+  "version": "1.0.0",
+  "description": "A simple Node.js web server that displays Hello World",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "author": "",
+  "license": "ISC"
+}

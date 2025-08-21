@@ -1,0 +1,56 @@
+const http = require('http');
+
+const hostname = '127.0.0.1';
+const port = 3000;
+
+const server = http.createServer((req, res) => {
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'text/html');
+  res.end(`
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Hello World</title>
+      <style>
+        body {
+          background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
+          height: 100vh;
+          margin: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        .container {
+          background: rgba(255,255,255,0.9);
+          padding: 40px 60px;
+          border-radius: 16px;
+          box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+          text-align: center;
+        }
+        h1 {
+          color: #333;
+          font-size: 3rem;
+          margin: 0 0 10px 0;
+        }
+        p {
+          color: #666;
+          font-size: 1.2rem;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <h1>Hello World</h1>
+        <p>Welcome to your beautiful Node.js web server!</p>
+      </div>
+    </body>
+    </html>
+  `);
+});
+
+server.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
+});
