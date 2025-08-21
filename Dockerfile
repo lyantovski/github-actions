@@ -1,20 +1,13 @@
-# Use official Node.js LTS image
-FROM node:18-alpine
+# Use official Nginx image
+FROM nginx:1.25-alpine
 
 # Set working directory
-WORKDIR /app
+WORKDIR /usr/share/nginx/html
 
-# Copy package.json and package-lock.json if present
-COPY package.json ./
+# Copy static HTML file
+COPY src/index.html ./index.html
 
-# Install dependencies
-RUN npm install --production
+# Expose port 80
+EXPOSE 80
 
-# Copy source code
-COPY src ./src
-
-# Expose port
-EXPOSE 3000
-
-# Start the application
-CMD ["npm", "start"]
+# Nginx runs by default

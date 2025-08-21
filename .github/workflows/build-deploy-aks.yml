@@ -22,7 +22,7 @@ jobs:
     - name: Set version number
       id: set-version-number
       run: |
-        echo "tag_name=1.2.$GITHUB_RUN_NUMBER" >> $GITHUB_OUTPUT
+        echo "tag_name=1.0.$GITHUB_RUN_NUMBER" >> $GITHUB_OUTPUT
    
   build-and-push:
     needs: set-version
