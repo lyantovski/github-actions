@@ -15,7 +15,8 @@ on:
 
 jobs:
   set-version:
-    runs-on: ubuntu-latest
+    #runs-on: ubuntu-latest
+    runs-on: lyantovski-vm-ubuntu24
     outputs:
       tag_name: ${{ steps.set-version-number.outputs.tag_name }}
     steps:
