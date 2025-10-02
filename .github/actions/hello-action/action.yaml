@@ -10,5 +10,5 @@ runs:
     - name: Say hello
       shell: bash
       run: |
-        echo "👋 Hello ${{ inputs.name }} from external repo!"
+        echo "👋 Hello ${{ inputs.name }} from Hello Action!"
         echo "   (Running inside $GITHUB_REPOSITORY)"
