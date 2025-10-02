@@ -1,0 +1,24 @@
+name: Hello World Pipeline
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  hello-demo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout current repo
+        uses: actions/checkout@v4
+
+      # Use LOCAL hello-action
+      - name: Local hello action
+        uses: ./.github/actions/hello-action
+        with:
+          name: "Lior (local repo)"
+
+      # Use EXTERNAL hello-action (uncomment when repo is public and pushed)
+      # - name: External hello action
+      #   uses: lyantovski/github-actions/.github/actions/hello-action@main
+      #   with:
+      #     name: "Lior (external repo)"
