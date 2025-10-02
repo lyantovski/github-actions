@@ -22,6 +22,6 @@ jobs:
 
       # Use EXTERNAL hello-action (uncomment when repo is public and pushed)
       - name: External hello action
-        uses: lyantovski/github-actions/.github/actions/hello-action@v1
+        uses: lyantovski/github-actions/.github/actions/hello-action@v2
         with:
           name: "Lior (external repo)"
