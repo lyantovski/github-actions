@@ -1,0 +1,14 @@
+name: "Hello Action"
+description: "A simple composite action that prints a greeting"
+inputs:
+  name:
+    description: "Who to greet"
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Say hello
+      shell: bash
+      run: |
+        echo "👋 Hello ${{ inputs.name }} from external repo!"
+        echo "   (Running inside $GITHUB_REPOSITORY)"
