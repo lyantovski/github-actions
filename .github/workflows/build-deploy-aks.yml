@@ -15,8 +15,8 @@ on:
 
 jobs:
   set-version:
-    #runs-on: ubuntu-latest
-    runs-on: lyantovski-vm-ubuntu24
+    runs-on: ubuntu-latest
+    #runs-on: lyantovski-vm-ubuntu24
     outputs:
       tag_name: ${{ steps.set-version-number.outputs.tag_name }}
     steps:
@@ -27,8 +27,8 @@ jobs:
    
   build-and-push:
     needs: set-version
-    #runs-on: ubuntu-latest
-    runs-on: lyantovski-vm-ubuntu24
+    runs-on: ubuntu-latest
+    #runs-on: lyantovski-vm-ubuntu24
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -58,8 +58,8 @@ jobs:
   deploy:
     needs: [ set-version, build-and-push ]
     if: github.event_name == 'workflow_dispatch' && github.event.inputs.deploy == 'true'
-   #runs-on: ubuntu-latest
-    runs-on: lyantovski-vm-ubuntu24
+    runs-on: ubuntu-latest
+    #runs-on: lyantovski-vm-ubuntu24
     environment:
       name: aks-deploy
       url: https://portal.azure.com/
