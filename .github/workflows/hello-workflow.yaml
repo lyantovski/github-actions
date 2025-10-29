@@ -9,7 +9,8 @@ on:
 
 jobs:
   hello-demo:
-    runs-on: ubuntu-latest
+    #runs-on: ubuntu-latest
+    runs-on: lyantovski-vm-ubuntu24
     steps:
       - name: Checkout current repo
         uses: actions/checkout@v4
